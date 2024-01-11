@@ -19,7 +19,7 @@ jobs:
           {"python-version": 3.9, "django-version": 3.2},
           {"python-version": 3.12, "django-version": 4.2}
         ]
-        platform: [amd64, arm64]
+        platform: [amd64]
         poetry-version: [1.7]
     runs-on: ubuntu-latest
     steps:
@@ -35,8 +35,15 @@ jobs:
       - name: Replace the Django Version in Dockerfile
         run: sed -i "s/DJANGO_VERSION/${{ matrix.software-versions.django-version }}/g" Dockerfile
 
-      - name: Build the image
-        run: docker buildx build --platform linux/${{ matrix.platform }} --push -t ghcr.io/visdesignlab/django-image:${{matrix.software-versions.django-version}}-${{ github.ref_name }} .
+      # - name: Build the image
+      #   run: docker buildx build --platform linux/${{ matrix.platform }} --push -t ghcr.io/visdesignlab/django-image:${{matrix.software-versions.django-version}}-${{ github.ref_name }} .
+
+      - name: Build and publish a Docker image for ${{ github.repository }}
+        uses: macbre/push-to-ghcr@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          image_name: ${{ github.repository }} 
+          image_tag: ${{ matrix.software-versions.django-version }}-${{ github.ref_name }}
 
       
       
