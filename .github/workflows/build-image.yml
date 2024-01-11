@@ -1,0 +1,42 @@
+# This file builds the Docker image and pushes it to ghcr.io
+# It is triggered on every release
+# The build will run for multiple platforms (amd64, arm64, armv7)
+# The build will run on multiple LTS versions of Django (3.2, 4.2)
+# The build will run on multiple versions of Python (3.8, 3.9, 3.10), which will be configured in the matrix and pinned to the LTS versions of Django
+
+name: Build Image
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build-matrix:
+    strategy:
+      fail-fast: false
+      matrix:
+        software-versions: [
+          {"python-version": 3.9, "django-version": 3.2},
+          {"python-version": 3.12, "django-version": 4.2}
+        ]
+        platform: [amd64, arm64]
+        poetry-version: [1.7]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the repo
+        uses: actions/checkout@v4
+
+      - name: Copy from django${{ matrix.software-versions.django-version }} directory to root
+        run: cp -r django${{ matrix.software-versions.django-version }}/* .
+
+      - name: Replace Python Version in Dockerfile
+        run: sed -i "s/PYTHON_VERSION/${{ matrix.software-versions.python-version }}/g" Dockerfile
+
+      - name: Replace the Django Version in Dockerfile
+        run: sed -i "s/DJANGO_VERSION/${{ matrix.software-versions.django-version }}/g" Dockerfile
+
+      - name: Build the image
+        run: docker buildx build --platform linux/${{ matrix.platform }} --push -t ghcr.io/visdesignlab/django-image:${{matrix.software-versions.django-version}}-${{ github.ref_name }} .
+
+      
+      
