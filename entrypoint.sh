@@ -6,7 +6,7 @@
 
 # Install dependencies
 poetry config virtualenvs.create false
-poetry install --no-interaction --no-ansi
+poetry install --no-interaction --no-ansi --no-root
 
 # Run migrations
 poetry run python manage.py migrate --no-input
