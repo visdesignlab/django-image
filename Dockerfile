@@ -4,8 +4,6 @@ LABEL org.opencontainers.image.source="https://github.com/visdesignlab/django-im
 ENV PYTHONUNBUFFERED 1
 ENV PYTHONDONTWRITEBYTECODE 1]
 
-ENV MYSQLCLIENT_CFLAGS=-I/usr/include/mysql
-ENV MYSQLCLIENT_LDFLAGS=-L/usr/lib/x86_64-linux-gnu
 RUN apt-get update \
   && apt-get install -y --no-install-recommends build-essential libpq-dev python3-dev default-libmysqlclient-dev pkg-config \
   && rm -rf /var/lib/apt/lists/*
