@@ -9,11 +9,11 @@ poetry config virtualenvs.create false
 poetry install --no-interaction --no-ansi
 
 # Run migrations
-poetry run migrate
+poetry run python manage.py migrate --no-input
 
 # Start server
-if [ "$DJANGO_DEBUG" = "False" ]; then
-    poetry run serve:prod
+if [ "$DJANGO_DEBUG" = "True" ]; then
+    poetry run python manage.py runserver
 else
-    poetry run serve
+    poetry run gunicorn api.wsgi:application --bind 0.0.0.0:8000
 fi
