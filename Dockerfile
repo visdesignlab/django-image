@@ -1,4 +1,4 @@
-FROM python:PYTHON_VERSION-slim
+FROM python:PYTHON_VERSION-slim-DEBIAN_VERSION
 LABEL org.opencontainers.image.source="https://github.com/visdesignlab/django-image"
 
 ENV PYTHONUNBUFFERED 1

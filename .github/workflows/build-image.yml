@@ -16,8 +16,8 @@ jobs:
       fail-fast: false
       matrix:
         software-versions: [
-          {"python-version": 3.9, "django-version": 3.2},
-          {"python-version": 3.12, "django-version": 4.2}
+          {"python-version": 3.9, "django-version": 3.2, "debian-version": "bullseye"},
+          {"python-version": 3.11, "django-version": 4.2, "debian-version": "bookworm"}
         ]
         platform: [amd64]
     runs-on: ubuntu-latest
@@ -30,6 +30,9 @@ jobs:
 
       - name: Replace Python Version in Dockerfile
         run: sed -i "s/PYTHON_VERSION/${{ matrix.software-versions.python-version }}/g" Dockerfile
+
+      - name: Replace Debian Version in Dockerfile
+        run: sed -i "s/DEBIAN_VERSION/${{ matrix.software-versions.debian-version }}/g" Dockerfile
 
       - name: Replace the Django Version in Dockerfile
         run: sed -i "s/DJANGO_VERSION/${{ matrix.software-versions.django-version }}/g" Dockerfile
