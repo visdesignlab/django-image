@@ -5,7 +5,7 @@ ENV PYTHONUNBUFFERED 1
 ENV PYTHONDONTWRITEBYTECODE 1]
 
 RUN apt-get update \
-  && apt-get install -y --no-install-recommends build-essential libpq-dev python3-dev default-libmysqlclient-dev pkg-config \
+  && apt-get install -y --no-install-recommends build-essential libpq-dev python3-dev python3-socks default-libmysqlclient-dev pkg-config \
   && rm -rf /var/lib/apt/lists/*
 
 COPY ./djangoDJANGO_VERSION/* /install/
