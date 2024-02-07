@@ -17,7 +17,8 @@ jobs:
       matrix:
         software-versions: [
           {"python-version": 3.9, "django-version": 3.2, "debian-version": "bullseye"},
-          {"python-version": 3.11, "django-version": 4.2, "debian-version": "bookworm"}
+          {"python-version": 3.11, "django-version": 4.2, "debian-version": "bookworm"},
+          {"python-version": 3.11, "django-version": 5.0, "debian-version": "bookworm"}
         ]
         platform: [amd64]
     runs-on: ubuntu-latest
