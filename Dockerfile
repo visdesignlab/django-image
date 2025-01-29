@@ -11,7 +11,7 @@ RUN apt-get update \
 COPY ./djangoDJANGO_VERSION/* /install/
 WORKDIR /install
 
-RUN pip3 install poetry
+RUN pip3 install poetry==1.8.5
 RUN poetry install
 
 VOLUME /app
