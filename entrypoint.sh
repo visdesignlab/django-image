@@ -19,7 +19,8 @@ poetry run python manage.py migrate --no-input
 if [ "$DJANGO_DEBUG" = "True" ]; then
     poetry run python manage.py runserver 0.0.0.0:8000 &
 else
-    poetry run gunicorn api.wsgi:application --bind 0.0.0.0:8000 &
+    GUNICORN_TIMEOUT=${GUNICORN_TIMEOUT:-30}
+    poetry run gunicorn api.wsgi:application --bind 0.0.0.0:8000 --timeout $GUNICORN_TIMEOUT &
 fi
 
 # Get the PID of the background process
